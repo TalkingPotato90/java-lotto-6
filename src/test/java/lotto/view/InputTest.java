@@ -67,5 +67,13 @@ class InputTest {
                 .hasMessageContaining("[ERROR]");
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"0,2,3,4,5,6","35,36,37,38,39,46"})
+    @DisplayName("입력받은 당첨 번호중 하나라도 1에서 45사이가 아니면 예외가 발생한다.")
+    void inputWinningNumberRangeError(String value){
+        assertThatThrownBy(()->input.validateWinningNumber(value))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 
 }
