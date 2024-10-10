@@ -50,4 +50,10 @@ public class Input {
         }
     }
 
+    public void validateBonusNumber(String input) {
+        if (!input.matches(Guide.ONLY_DIGIT.getMessage())){
+            throw new IllegalArgumentException("[ERROR] 보너스 번호는 숫자만 입력 가능합니다.");
+        }
+    }
+
 }
