@@ -62,6 +62,12 @@ class InputTest {
         assertThatThrownBy(()->input.validateWinningNumber("일,이,삼,사,오,6"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
+        assertThatThrownBy(()->input.validateWinningNumber(".,2,3,4,5,6"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+        assertThatThrownBy(()->input.validateWinningNumber("a,2,3,4,5,6"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
     }
 
 

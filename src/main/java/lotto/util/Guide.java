@@ -2,7 +2,8 @@ package lotto.util;
 
 public enum Guide {
     PURCHASE("구입금액을 입력해 주세요."),
-    ONLY_DIGIT("^[0-9]*$");
+    ONLY_DIGIT("^[0-9]*$"),
+    WINNING_NUMBER_FORMAT("^[0-9,\\s]*$");
 
 
     String message;

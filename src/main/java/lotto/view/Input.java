@@ -28,6 +28,10 @@ public class Input {
     }
 
     public void validateWinningNumber(String input) {
+        if (!input.matches(Guide.WINNING_NUMBER_FORMAT.getMessage())) {
+            throw new IllegalArgumentException("[ERROR] 당첨번호는 숫자와 쉼표만 입력 가능합니다.");
+        }
+
         String[] numbers = input.replaceAll(" ", "").split(",");
         if (numbers.length != Limit.NUMBER_LENGTH.getValue()) {
             throw new IllegalArgumentException("[ERROR] 당첨 번호는 6개여야 합니다.");
