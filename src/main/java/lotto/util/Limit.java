@@ -5,7 +5,8 @@ public enum Limit {
     RANDOM_MAX(45),
     NUMBER_LENGTH(6),
     PRICE_MIN(1_000),
-    PRICE_MAX(100_000);
+    PRICE_MAX(100_000),
+    ZERO(0);
 
 
     int value;
