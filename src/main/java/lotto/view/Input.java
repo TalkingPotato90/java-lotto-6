@@ -1,6 +1,7 @@
 package lotto.view;
 
 import camp.nextstep.edu.missionutils.Console;
+import lotto.util.Guide;
 import lotto.util.Limit;
 
 public class Input {
@@ -8,8 +9,8 @@ public class Input {
         return Console.readLine();
     }
 
-    public void validate(String input) {
-        if (!input.matches("^[0-9]*$")) {
+    public void validatePurchase(String input) {
+        if (!input.matches(Guide.ONLY_DIGIT.getMessage())) {
             throw new IllegalArgumentException("[ERROR] 금액은 숫자만 입력가능합니다.]");
         }
 
