@@ -93,4 +93,13 @@ class InputTest {
                 .hasMessageContaining("[ERROR]");
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"0","46","100"})
+    @DisplayName("보너스 번호 입력값이 1에서 45사이가 아니면 예외가 발생한다.")
+    void inputBonusNumberRangeError(String value){
+        assertThatThrownBy(()->input.validateBonusNumber(value))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
 }
