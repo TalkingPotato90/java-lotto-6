@@ -56,5 +56,13 @@ class InputTest {
                 .hasMessageContaining("[ERROR]");
     }
 
+    @Test
+    @DisplayName("입력받은 당첨 번호에 쉼표와 숫자 이외의 입력이 있으면 예외가 발생한다.")
+    void inputWinningNumberFormatError(){
+        assertThatThrownBy(()->input.validateWinningNumber("일,이,삼,사,오,6"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
 
 }
