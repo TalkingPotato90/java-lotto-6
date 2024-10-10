@@ -1,5 +1,7 @@
 package lotto.util;
 
+import lotto.controller.LottoController;
+
 import java.util.Arrays;
 
 public class InputValidator {
@@ -50,5 +52,16 @@ public class InputValidator {
         if (Integer.parseInt(input) < Limit.RANDOM_MIN.getValue() || Integer.parseInt(input) > Limit.RANDOM_MAX.getValue()) {
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 1부터 45 사이의 숫자만 입력 가능합니다.");
         }
+
+        // TODO : 당첨번호를 입력 받으면 배열로 반환하는 기능 구현 필요
+        LottoController lottoController = new LottoController();
+
+        if (isDuplicate(lottoController.temp("1,2,3,4,5,6"),input)){
+            throw new IllegalArgumentException("[ERROR] 보너스 번호는 당첨 번호와 중복될 수 없습니다.");
+        }
+    }
+
+    public boolean isDuplicate(String[] winningNumber, String bonusNumber) {
+        return Arrays.asList(winningNumber).contains(bonusNumber);
     }
 }

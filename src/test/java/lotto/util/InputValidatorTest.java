@@ -105,7 +105,6 @@ class InputValidatorTest {
     @Test
     @DisplayName("보너스 번호가 입력된 당첨 번호와 중복되면 예외가 발생한다.")
     void inputBonusNumberDuplicateError(){
-        String[] winningNumbers = {"1","2","3","4","5","6"};
         assertThatThrownBy(()-> inputValidator.validateBonusNumber("6"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
