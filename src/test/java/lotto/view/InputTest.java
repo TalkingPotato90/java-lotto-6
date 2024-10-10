@@ -25,4 +25,12 @@ class InputTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("금액 입력값이 1000원 미만이면 예외가 발생한다.")
+    void inputMinRangeError(){
+        assertThatThrownBy(()->input.validate("900"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
