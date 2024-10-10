@@ -54,6 +54,10 @@ public class Input {
         if (!input.matches(Guide.ONLY_DIGIT.getMessage())){
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 숫자만 입력 가능합니다.");
         }
+
+        if (Integer.parseInt(input) < Limit.RANDOM_MIN.getValue() || Integer.parseInt(input) > Limit.RANDOM_MAX.getValue()) {
+            throw new IllegalArgumentException("[ERROR] 보너스 번호는 1부터 45 사이의 숫자만 입력 가능합니다.");
+        }
     }
 
 }
