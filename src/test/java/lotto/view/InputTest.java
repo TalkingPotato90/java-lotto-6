@@ -3,6 +3,8 @@ package lotto.view;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -56,16 +58,11 @@ class InputTest {
                 .hasMessageContaining("[ERROR]");
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {"일,이,삼,사,오,6", ".,2,3,4,5,6", "a,2,3,4,5,6"})
     @DisplayName("입력받은 당첨 번호에 쉼표와 숫자 이외의 입력이 있으면 예외가 발생한다.")
-    void inputWinningNumberFormatError(){
-        assertThatThrownBy(()->input.validateWinningNumber("일,이,삼,사,오,6"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR]");
-        assertThatThrownBy(()->input.validateWinningNumber(".,2,3,4,5,6"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR]");
-        assertThatThrownBy(()->input.validateWinningNumber("a,2,3,4,5,6"))
+    void inputWinningNumberFormatError(String value){
+        assertThatThrownBy(()->input.validateWinningNumber(value))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
