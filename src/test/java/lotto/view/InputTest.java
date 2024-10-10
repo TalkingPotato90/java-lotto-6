@@ -33,4 +33,20 @@ class InputTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("금액 입력값이 10만원 초과이면 예외가 발생한다.")
+    void inputMaxRangeError(){
+        assertThatThrownBy(()->input.validate("100001"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
+    @Test
+    @DisplayName("금액 입력값이 1000원 단위가 아니면 예외가 발생한다.")
+    void inputDefaultValueError(){
+        assertThatThrownBy(()->input.validate("1500"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
