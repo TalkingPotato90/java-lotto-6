@@ -26,4 +26,12 @@ public class Input {
             throw new IllegalArgumentException("[ERROR] 로또 구입 금액은 1000원 단위로 입력 가능합니다.");
         }
     }
+
+    public void validateWinningNumber(String input) {
+        String[] numbers = input.replaceAll(" ", "").split(",");
+        if (numbers.length != Limit.NUMBER_LENGTH.getValue()) {
+            throw new IllegalArgumentException("[ERROR] 당첨 번호는 6개여야 합니다.");
+        }
+    }
+
 }
