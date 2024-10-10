@@ -5,24 +5,6 @@ import lotto.controller.LottoController;
 import java.util.Arrays;
 
 public class InputValidator {
-    public void validatePurchase(String input) {
-        if (!input.matches(Guide.ONLY_DIGIT.getMessage())) {
-            throw new IllegalArgumentException("[ERROR] 금액은 숫자만 입력가능합니다.]");
-        }
-
-        if (Integer.parseInt(input) < Limit.PRICE_MIN.getValue()) {
-            throw new IllegalArgumentException("[ERROR] 로또 구입 금액은 최소 1000원 이상이어야 합니다.");
-        }
-
-        if (Integer.parseInt(input) > Limit.PRICE_MAX.getValue()) {
-            throw new IllegalArgumentException("[ERROR] 로또 구입 금액은 최대 10만원까지 입력 가능 합니다.");
-        }
-
-        if (Integer.parseInt(input) % Limit.PRICE_MIN.getValue() != Limit.ZERO.getValue()) {
-            throw new IllegalArgumentException("[ERROR] 로또 구입 금액은 1000원 단위로 입력 가능합니다.");
-        }
-    }
-
     public void validateWinningNumber(String input) {
         if (!input.matches(Guide.WINNING_NUMBER_FORMAT.getMessage())) {
             throw new IllegalArgumentException("[ERROR] 당첨번호는 숫자와 쉼표만 입력 가능합니다.");
