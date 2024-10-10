@@ -4,6 +4,8 @@ import camp.nextstep.edu.missionutils.Console;
 import lotto.util.Guide;
 import lotto.util.Limit;
 
+import java.util.Arrays;
+
 public class Input {
     public String getInput() {
         return Console.readLine();
@@ -36,6 +38,12 @@ public class Input {
         if (numbers.length != Limit.NUMBER_LENGTH.getValue()) {
             throw new IllegalArgumentException("[ERROR] 당첨 번호는 6개여야 합니다.");
         }
+
+        Arrays.stream(numbers)
+                .filter(number -> Integer.parseInt(number) < Limit.RANDOM_MIN.getValue() || Integer.parseInt(number) > Limit.RANDOM_MAX.getValue())
+                .forEach(number -> {
+            throw new IllegalArgumentException("[ERROR] 당첨 번호는 1부터 45 사이의 숫자만 입력 가능합니다.");
+        });
     }
 
 }
