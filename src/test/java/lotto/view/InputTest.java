@@ -76,4 +76,12 @@ class InputTest {
                 .hasMessageContaining("[ERROR]");
     }
 
+    @Test
+    @DisplayName("입력된 당첨 번호에 중복이 있으면 예외가 발생한다.")
+    void inputWinningNumberDuplicateError(){
+        assertThatThrownBy(()->input.validateWinningNumber("1,2,3,4,5,5"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
 }
