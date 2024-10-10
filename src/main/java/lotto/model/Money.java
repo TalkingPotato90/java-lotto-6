@@ -8,7 +8,15 @@ public class Money {
 
     public Money(String money) {
         validatePurchase(money);
-        this.amount = Integer.parseInt(money) / 1000;
+        this.amount = calculateLottoQuantity(money);
+    }
+
+    private int calculateLottoQuantity(String money) {
+        return Integer.parseInt(money) / Limit.PRICE_MIN.getValue();
+    }
+
+    public boolean isCorrectPurchase(int lottoQuantity) {
+        return amount == lottoQuantity;
     }
 
     private void validatePurchase(String input) {
