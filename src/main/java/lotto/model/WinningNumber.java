@@ -5,13 +5,16 @@ import lotto.util.Guide;
 import lotto.util.Limit;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class WinningNumber {
     private final List<Integer> WinningNumbers;
     private final int bonusNumber;
 
+    // TODO: 뷰에서 입력을 List<Integer>로 변경하는 로직을 구현하고 파라미터와 메서드 수정하기
     public WinningNumber(String winningNumbers, String bonusNumber) {
         validateWinningNumber(winningNumbers);
         this.WinningNumbers = Arrays.stream
@@ -57,12 +60,12 @@ public class WinningNumber {
         // TODO : 당첨번호를 입력 받으면 배열로 반환하는 기능 구현 필요
         LottoController lottoController = new LottoController();
 
-        if (isDuplicate(lottoController.temp("1,2,3,4,5,6"),input)){
+        if (isDuplicate(lottoController.convertData("1,2,3,4,5,6"),input)){
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 당첨 번호와 중복될 수 없습니다.");
         }
     }
 
-    public boolean isDuplicate(String[] winningNumber, String bonusNumber) {
-        return Arrays.asList(winningNumber).contains(bonusNumber);
+    public boolean isDuplicate(List<Integer> winningNumber, String bonusNumber) {
+        return winningNumber.contains(Integer.parseInt(bonusNumber));
     }
 }
