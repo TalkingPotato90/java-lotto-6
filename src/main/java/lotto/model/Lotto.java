@@ -1,5 +1,7 @@
 package lotto.model;
 
+import lotto.util.Limit;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +27,12 @@ public class Lotto {
         if (numbers.size() != numbers.stream().distinct().toList().size()) {
             throw new IllegalArgumentException();
         }
+
+        numbers.stream()
+                .filter(number -> number < Limit.RANDOM_MIN.getValue() || number > Limit.RANDOM_MAX.getValue())
+                .forEach(number -> {
+            throw new IllegalArgumentException();
+        });
     }
 
     // TODO: 추가 기능 구현
