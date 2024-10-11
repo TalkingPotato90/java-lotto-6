@@ -15,6 +15,10 @@ public class Money {
         return Integer.parseInt(money) / Limit.PRICE_MIN.getValue();
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
     public boolean isCorrectPurchase(int lottoQuantity) {
         return amount == lottoQuantity;
     }

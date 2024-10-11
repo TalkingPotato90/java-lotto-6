@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LottoController {
-    public List<Integer> convertData(String input){
+    public List<Integer> convertWinningNumber(String input){
         return Arrays.stream
                         (input
                                 .replaceAll(" ","")
@@ -13,4 +13,9 @@ public class LottoController {
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
     }
+
+    public int convertDigit(String input){
+        return Integer.parseInt(input);
+    }
+    
 }
