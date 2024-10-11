@@ -6,10 +6,10 @@ import lotto.util.Limit;
 import java.util.List;
 
 public class LottoGenerator {
-    public void execute() {
+    public Lotto execute() {
         List<Integer> numbers = Randoms
                 .pickUniqueNumbersInRange(Limit.RANDOM_MIN.getValue(),
                         Limit.RANDOM_MAX.getValue(), Limit.NUMBER_LENGTH.getValue());
-        Lotto lotto = new Lotto(numbers);
+        return new Lotto(numbers);
     }
 }
