@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LottoController {
+public class InputController {
     private InputValidator inputValidator = new InputValidator();
 
     public List<Integer> convertWinningNumber(String input){

@@ -7,12 +7,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class LottoControllerTest {
-    private LottoController controller;
+class InputControllerTest {
+    private InputController controller;
 
     @BeforeEach
     void setUp() {
-        controller = new LottoController();
+        controller = new InputController();
     }
 
     @ParameterizedTest

@@ -1,6 +1,6 @@
 package lotto;
 
-import lotto.controller.LottoController;
+import lotto.controller.InputController;
 import lotto.model.Lotto;
 import lotto.model.LottoGenerator;
 import lotto.model.Money;
@@ -16,7 +16,7 @@ public class Application {
         // TODO: 프로그램 구현
         Output output = new Output();
         Input input = new Input();
-        LottoController lottoController = new LottoController();
+        InputController inputController = new InputController();
         LottoGenerator generator = new LottoGenerator();
 
         output.printGuide(Guide.PURCHASE.getMessage());
