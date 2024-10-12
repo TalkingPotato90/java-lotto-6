@@ -4,44 +4,34 @@ import lotto.controller.LottoController;
 import lotto.util.Guide;
 import lotto.util.Limit;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class WinningNumber {
     private final List<Integer> WinningNumbers;
     private final int bonusNumber;
 
     // TODO: 파라미터와 메서드 수정하기
-    public WinningNumber(String winningNumbers, String bonusNumber) {
+    public WinningNumber(List<Integer> winningNumbers, String bonusNumber) {
         validateWinningNumber(winningNumbers);
-        this.WinningNumbers = Arrays.stream
-                        (winningNumbers
-                                .replaceAll(" ","")
-                                .split(","))
-                .map(Integer::parseInt)
-                .collect(Collectors.toList());
+        this.WinningNumbers = new ArrayList<>(winningNumbers);
         validateBonusNumber(bonusNumber);
         this.bonusNumber = Integer.parseInt(bonusNumber);
     }
 
-    public void validateWinningNumber(String input) {
-        if (!input.matches(Guide.WINNING_NUMBER_FORMAT.getMessage())) {
-            throw new IllegalArgumentException("[ERROR] 당첨번호는 숫자와 쉼표만 입력 가능합니다.");
-        }
-
-        String[] numbers = input.replaceAll(" ", "").split(",");
-        if (numbers.length != Limit.NUMBER_LENGTH.getValue()) {
+    public void validateWinningNumber(List<Integer> winningNumbers) {
+        if (winningNumbers.size() != Limit.NUMBER_LENGTH.getValue()) {
             throw new IllegalArgumentException("[ERROR] 당첨 번호는 6개여야 합니다.");
         }
 
-        Arrays.stream(numbers)
-                .filter(number -> Integer.parseInt(number) < Limit.RANDOM_MIN.getValue() || Integer.parseInt(number) > Limit.RANDOM_MAX.getValue())
-                .forEach(number -> {
+        winningNumbers.stream()
+                .filter(number -> number < Limit.RANDOM_MIN.getValue() || number > Limit.RANDOM_MAX.getValue())
+                .findAny()
+                .ifPresent(number -> {
                     throw new IllegalArgumentException("[ERROR] 당첨 번호는 1부터 45 사이의 숫자만 입력 가능합니다.");
                 });
 
-        if(Arrays.stream(numbers).distinct().toArray().length != Limit.NUMBER_LENGTH.getValue()) {
+        if(winningNumbers.stream().distinct().count() != Limit.NUMBER_LENGTH.getValue()) {
             throw new IllegalArgumentException("[ERROR] 당첨 번호는 중복이 없어야 합니다.");
         }
     }
