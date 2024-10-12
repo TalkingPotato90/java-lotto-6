@@ -28,7 +28,6 @@ class LottoTest {
     @DisplayName("로또 번호에 범위를 초과하는 숫자가 있으면 예외가 발생한다.")
     @Test
     void createLottoByOverLimitNumber() {
-        // TODO: 이 테스트가 통과할 수 있게 구현 코드 작성
         assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5, 47)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -36,6 +35,7 @@ class LottoTest {
     @Test
     @DisplayName("생성된 로또가 오름차순으로 정렬되었는지 확인한다.")
     void sortLotto(){
-        assertThat(new Lotto(List.of(5,2,7,9,3,1)).getNumbers()).containsExactly(1,2,3,5,7,9);
+        assertThat(new Lotto(List.of(5,2,7,9,3,1))
+                .getNumbers()).containsExactly(1,2,3,5,7,9);
     }
 }
