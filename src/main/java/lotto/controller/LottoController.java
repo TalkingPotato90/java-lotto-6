@@ -1,13 +1,17 @@
 package lotto.controller;
 
 import lotto.util.Guide;
+import lotto.util.InputValidator;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class LottoController {
+    private InputValidator inputValidator = new InputValidator();
+
     public List<Integer> convertWinningNumber(String input){
+        inputValidator.validate(input);
         validateWinningNumberInput(input);
         return Arrays.stream
                         (input
@@ -18,6 +22,7 @@ public class LottoController {
     }
 
     public int convertDigit(String input){
+        inputValidator.validate(input);
         validateDigitInput(input);
         return Integer.parseInt(input);
     }
