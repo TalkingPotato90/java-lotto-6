@@ -9,7 +9,6 @@ public class WinningNumber {
     private final List<Integer> WinningNumbers;
     private final int bonusNumber;
 
-    // TODO: 파라미터와 메서드 수정하기
     public WinningNumber(List<Integer> winningNumbers, int bonusNumber) {
         validateWinningNumber(winningNumbers);
         this.WinningNumbers = new ArrayList<>(winningNumbers);
