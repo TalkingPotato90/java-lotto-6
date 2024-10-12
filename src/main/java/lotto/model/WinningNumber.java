@@ -3,6 +3,7 @@ package lotto.model;
 import lotto.util.Limit;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WinningNumber {
@@ -12,6 +13,7 @@ public class WinningNumber {
     public WinningNumber(List<Integer> winningNumbers, int bonusNumber) {
         validateWinningNumber(winningNumbers);
         this.WinningNumbers = new ArrayList<>(winningNumbers);
+        Collections.sort(this.WinningNumbers);
         validateBonusNumber(bonusNumber);
         this.bonusNumber = bonusNumber;
     }
