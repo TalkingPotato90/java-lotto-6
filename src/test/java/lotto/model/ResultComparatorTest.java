@@ -23,4 +23,13 @@ class ResultComparatorTest {
         assertThat(comparator.compareResults(List.of(1, 2, 3, 4, 5, 6),List.of(1, 2, 3, 4, 5, 7)))
                 .isEqualTo(5);
     }
+
+    @Test
+    @DisplayName("생성된 로또 번호와 보너스 번호의 일치 확인")
+    void matchBonusNumber() {
+        assertThat(comparator.isBonusMatch(List.of(1, 2, 3, 4, 5, 6),3))
+                .isTrue();
+        assertThat(comparator.isBonusMatch(List.of(1, 2, 3, 4, 5, 6),45))
+                .isFalse();
+    }
 }
