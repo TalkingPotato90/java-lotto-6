@@ -1,7 +1,5 @@
 package lotto.model;
 
-import lotto.controller.LottoController;
-import lotto.util.Guide;
 import lotto.util.Limit;
 
 import java.util.ArrayList;
@@ -12,11 +10,11 @@ public class WinningNumber {
     private final int bonusNumber;
 
     // TODO: 파라미터와 메서드 수정하기
-    public WinningNumber(List<Integer> winningNumbers, String bonusNumber) {
+    public WinningNumber(List<Integer> winningNumbers, int bonusNumber) {
         validateWinningNumber(winningNumbers);
         this.WinningNumbers = new ArrayList<>(winningNumbers);
         validateBonusNumber(bonusNumber);
-        this.bonusNumber = Integer.parseInt(bonusNumber);
+        this.bonusNumber = bonusNumber;
     }
 
     public void validateWinningNumber(List<Integer> winningNumbers) {
@@ -36,24 +34,17 @@ public class WinningNumber {
         }
     }
 
-    public void validateBonusNumber(String input) {
-        if (!input.matches(Guide.ONLY_DIGIT.getMessage())){
-            throw new IllegalArgumentException("[ERROR] 보너스 번호는 숫자만 입력 가능합니다.");
-        }
-
-        if (Integer.parseInt(input) < Limit.RANDOM_MIN.getValue() || Integer.parseInt(input) > Limit.RANDOM_MAX.getValue()) {
+    public void validateBonusNumber(int bonusNumber) {
+        if (bonusNumber < Limit.RANDOM_MIN.getValue() || bonusNumber > Limit.RANDOM_MAX.getValue()) {
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 1부터 45 사이의 숫자만 입력 가능합니다.");
         }
 
-        // TODO : 당첨번호를 입력 받으면 배열로 반환하는 기능 구현 필요
-        LottoController lottoController = new LottoController();
-
-        if (isDuplicate(lottoController.convertWinningNumber("1,2,3,4,5,6"),input)){
+        if (isDuplicate(WinningNumbers, bonusNumber)){
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 당첨 번호와 중복될 수 없습니다.");
         }
     }
 
-    public boolean isDuplicate(List<Integer> winningNumber, String bonusNumber) {
-        return winningNumber.contains(Integer.parseInt(bonusNumber));
+    public boolean isDuplicate(List<Integer> winningNumber, int bonusNumber) {
+        return winningNumber.contains(bonusNumber);
     }
 }
