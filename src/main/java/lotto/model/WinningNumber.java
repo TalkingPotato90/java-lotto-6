@@ -18,7 +18,11 @@ public class WinningNumber {
         this.bonusNumber = bonusNumber;
     }
 
-    public void validateWinningNumber(List<Integer> winningNumbers) {
+    public WinningNumber getWinningNumbers() {
+        return new WinningNumber(WinningNumbers, bonusNumber);
+    }
+
+    private void validateWinningNumber(List<Integer> winningNumbers) {
         if (winningNumbers.size() != Limit.NUMBER_LENGTH.getValue()) {
             throw new IllegalArgumentException("[ERROR] 당첨 번호는 6개여야 합니다.");
         }
@@ -35,7 +39,7 @@ public class WinningNumber {
         }
     }
 
-    public void validateBonusNumber(int bonusNumber) {
+    private void validateBonusNumber(int bonusNumber) {
         if (bonusNumber < Limit.RANDOM_MIN.getValue() || bonusNumber > Limit.RANDOM_MAX.getValue()) {
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 1부터 45 사이의 숫자만 입력 가능합니다.");
         }
@@ -45,7 +49,7 @@ public class WinningNumber {
         }
     }
 
-    public boolean isDuplicate(List<Integer> winningNumber, int bonusNumber) {
+    private boolean isDuplicate(List<Integer> winningNumber, int bonusNumber) {
         return winningNumber.contains(bonusNumber);
     }
 }
