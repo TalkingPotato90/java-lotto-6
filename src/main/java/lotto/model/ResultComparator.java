@@ -8,6 +8,6 @@ public class ResultComparator {
     }
 
     public boolean isBonusMatch(List<Integer> userNumbers, WinningNumber winningNumber) {
-        return userNumbers.contains(winningNumber.getBonusNumber());
+        return winningNumber.isBonusNumberMatch(userNumbers);
     }
 }

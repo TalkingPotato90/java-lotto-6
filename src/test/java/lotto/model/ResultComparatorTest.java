@@ -32,12 +32,12 @@ class ResultComparatorTest {
                 .isEqualTo(3);
     }
 
-//    @Test
-//    @DisplayName("생성된 로또 번호와 보너스 번호의 일치 확인")
-//    void matchBonusNumber() {
-//        assertThat(comparator.isBonusMatch(List.of(1, 2, 3, 4, 5, 6),3))
-//                .isTrue();
-//        assertThat(comparator.isBonusMatch(List.of(1, 2, 3, 4, 5, 6),45))
-//                .isFalse();
-//    }
+    @Test
+    @DisplayName("생성된 로또 번호와 보너스 번호의 일치 확인")
+    void matchBonusNumber() {
+        assertThat(comparator.isBonusMatch(List.of(1, 2, 3, 4, 5, 20),new WinningNumber(winningNumbers,bonusNumber)))
+                .isTrue();
+        assertThat(comparator.isBonusMatch(List.of(1, 2, 3, 4, 5, 6),new WinningNumber(winningNumbers,bonusNumber)))
+                .isFalse();
+    }
 }

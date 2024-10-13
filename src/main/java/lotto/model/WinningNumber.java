@@ -33,6 +33,11 @@ public class WinningNumber {
                 .count());
     }
 
+    public boolean isBonusNumberMatch(List<Integer> userNumbers) {
+        return userNumbers.stream()
+                .anyMatch(number -> number == bonusNumber);
+    }
+
 
     private void validateBonusNumber(int bonusNumber) {
         if (bonusNumber < Limit.RANDOM_MIN.getValue() || bonusNumber > Limit.RANDOM_MAX.getValue()) {
