@@ -47,6 +47,7 @@ public class Application {
 
         WinningNumber winningNumber = new WinningNumber(winningNumbers, bonusNumber);
 
+
         System.out.println();
         System.out.println(Guide.STATICS.getMessage());
 

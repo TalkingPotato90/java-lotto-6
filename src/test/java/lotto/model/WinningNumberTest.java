@@ -1,5 +1,8 @@
 package lotto.model;
 
+import lotto.controller.InputController;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,26 +15,26 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class WinningNumberTest {
+    private InputController inputController;
+
+    @BeforeEach
+    void setUp() {
+        inputController = new InputController();
+    }
+
     @Test
     @DisplayName("입력된 당첨 번호를 쉼표로 구분했을 때 6개가 아니면 예외가 발생한다.")
     void inputWinningNumberCountError(){
-        assertThatThrownBy(()-> new WinningNumber(List.of(1, 2, 3),5))
+        assertThatThrownBy(()-> new WinningNumber(inputController.convertWinningNumber("1, 2, 3"),5))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
 
-    private static Stream<List<Integer>> testNumberRange() {
-        return Stream.of(
-                List.of(0, 1, 2, 3, 4, 5),
-                List.of(1, 2, 3, 4, 5, 46)
-        );
-    }
-
     @ParameterizedTest
-    @MethodSource("testNumberRange")
+    @ValueSource(strings = {"0,1,2,3,4,5", "46,45,44,43,42,41"})
     @DisplayName("입력받은 당첨 번호중 하나라도 1에서 45사이가 아니면 예외가 발생한다.")
-    void inputWinningNumberRangeError(List<Integer> value){
-        assertThatThrownBy(()-> new WinningNumber(value, 45))
+    void inputWinningNumberRangeError(String value){
+        assertThatThrownBy(()-> new WinningNumber(inputController.convertWinningNumber(value), 45))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
@@ -39,7 +42,7 @@ class WinningNumberTest {
     @Test
     @DisplayName("입력된 당첨 번호에 중복이 있으면 예외가 발생한다.")
     void inputWinningNumberDuplicateError(){
-        assertThatThrownBy(()-> new WinningNumber(List.of(1, 2, 3, 4, 5, 5),45))
+        assertThatThrownBy(()-> new WinningNumber(inputController.convertWinningNumber("1, 2, 3, 4, 5, 5"),45))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
