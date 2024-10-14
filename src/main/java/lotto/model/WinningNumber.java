@@ -1,8 +1,6 @@
 package lotto.model;
 
-import com.sun.source.tree.ContinueTree;
 import lotto.util.Limit;
-import lotto.util.Rank;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,14 +15,6 @@ public class WinningNumber {
         Collections.sort(this.winningNumbers);
         validateBonusNumber(bonusNumber);
         this.bonusNumber = bonusNumber;
-    }
-
-    public List<Integer> getWinningNumbers() {
-        return Collections.unmodifiableList(winningNumbers);
-    }
-
-    public int getBonusNumber() {
-        return bonusNumber;
     }
 
     public int checkWinningNumberMatchCount(List<Integer> userNumbers) {

@@ -23,13 +23,15 @@ public class LottoController {
         return new Money(inputController.convertDigit(inputController.createInput())).getAmount();
     }
 
-    public void purchaseLottos(int amount){
+    public List<Lotto> purchaseLottos(int amount){
         List<Lotto> lottos = new ArrayList<>();
 
         for (int i = 0; i < amount; i++) {
             lottos.add(lottoGenerator.execute());
             io.printGuide(lottos.get(i).getNumbers().toString());
         }
+
+        return lottos;
     }
 
 }

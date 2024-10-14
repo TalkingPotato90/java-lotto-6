@@ -1,13 +1,11 @@
 package lotto.model;
 
-import java.util.List;
-
 public class ResultComparator {
-    public int compareResults(List<Integer> userNumbers, WinningNumber winningNumber) {
-        return winningNumber.checkWinningNumberMatchCount(userNumbers);
+    public int compareResults(Lotto userNumbers, WinningNumber winningNumber) {
+        return winningNumber.checkWinningNumberMatchCount(userNumbers.getNumbers());
     }
 
-    public boolean isBonusMatch(List<Integer> userNumbers, WinningNumber winningNumber) {
-        return winningNumber.isBonusNumberMatch(userNumbers);
+    public boolean isBonusMatch(Lotto userNumbers, WinningNumber winningNumber) {
+        return winningNumber.isBonusNumberMatch(userNumbers.getNumbers());
     }
 }
