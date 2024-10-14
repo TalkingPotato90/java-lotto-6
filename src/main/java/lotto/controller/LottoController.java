@@ -37,15 +37,15 @@ public class LottoController {
         return lottos;
     }
 
-    public double calculateTotalPrize(List<Lotto> userNumbers, WinningNumber winningNumber) {
-        return userNumbers.stream()
-                .mapToInt(userNumber -> calculateRank(userNumber, winningNumber)
+    public double calculateTotalPrize(LottoResult lottoResult) {
+        return lottoResult.getUserNumbers().stream()
+                .mapToInt(userNumber -> calculateRank(userNumber, lottoResult.getWinningNumber())
                         .getWinningMoney()).sum();
     }
 
-    public List<Rank> createWinningCount(List<Lotto> userNumbers, WinningNumber winningNumber) {
-        return userNumbers.stream()
-                .map(userNumber -> calculateRank(userNumber, winningNumber))
+    public List<Rank> createWinningCount(LottoResult lottoResult) {
+        return lottoResult.getUserNumbers().stream()
+                .map(userNumber -> calculateRank(userNumber, lottoResult.getWinningNumber()))
                 .collect(Collectors.toList());
     }
 

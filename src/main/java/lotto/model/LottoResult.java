@@ -1,21 +1,21 @@
 package lotto.model;
 
-import lotto.util.Rank;
-
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class LottoResult {
-    private List<Rank> winningCount;
+    private List<Lotto> userNumbers;
+    private WinningNumber winningNumber;
 
-    public LottoResult(List<Rank> winningCount) {
-        this.winningCount = winningCount;
+    public LottoResult(List<Lotto> userNumbers, WinningNumber winningNumber) {
+        this.userNumbers = userNumbers;
+        this.winningNumber = winningNumber;
     }
 
-    public Map<Rank, Long> getStatistics() {
-        return winningCount.stream()
-                .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
+    public List<Lotto> getUserNumbers() {
+        return userNumbers;
     }
 
+    public WinningNumber getWinningNumber() {
+        return winningNumber;
+    }
 }
