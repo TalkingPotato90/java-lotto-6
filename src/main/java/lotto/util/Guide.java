@@ -16,7 +16,7 @@ public enum Guide {
     BRACKET_CLOSE(")"),
     DASH(" - "),
     PROFIT_FWD("총 수익률은 "),
-    PROFIT_AFT("% 입니다.");
+    PROFIT_AFT("%입니다.");
 
     String message;
 
