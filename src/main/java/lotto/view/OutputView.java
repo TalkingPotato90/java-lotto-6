@@ -1,11 +1,5 @@
 package lotto.view;
 
-import lotto.controller.InputController;
-import lotto.controller.LottoController;
-import lotto.model.Lotto;
-import lotto.model.LottoResult;
-import lotto.model.WinningNumber;
-import lotto.model.WinningResult;
 import lotto.util.CommonIO;
 import lotto.util.Guide;
 import lotto.util.Rank;
@@ -14,75 +8,40 @@ import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 
 public class OutputView {
     private final CommonIO io = new CommonIO();
-    private final LottoController lottoController = new LottoController();
-    private final InputController inputController = new InputController();
 
-    public int purchaseLotto() {
+    public void printInitialMessage(){
         io.printGuide(Guide.PURCHASE.getMessage());
-        int amount = repeatUntilValid(lottoController::calculateAmount);
-        io.printNewLine();
-
-        return amount;
     }
 
-    public List<Lotto> printPurchasedLotto(int amount) {
-        io.printGuide(amount + Guide.BUY_RESULT.getMessage());
-        List<Lotto> userNumbers = lottoController.purchaseLottos(amount);
+    public void printNewLine(){
         io.printNewLine();
-        return userNumbers;
     }
 
-    public WinningNumber createWinningInformation() {
-        List<Integer> winningNumbers = createWinningNumbers();
-        io.printGuide(Guide.REQUEST_BONUS_NUMBER.getMessage());
-
-        WinningNumber winningNumber = repeatUntilValid(() -> {
-            int bonusNumber = inputController.convertDigit(inputController.createInput());
-            return new WinningNumber(winningNumbers, bonusNumber);
-        });
-
-        io.printNewLine();
-
-        return winningNumber;
+    public void printPurchasedLotto(){
+        io.printGuide(Guide.BUY_RESULT.getMessage());
     }
 
-    private List<Integer> createWinningNumbers() {
+    public void printWinningNumberRequest(){
         io.printGuide(Guide.REQUEST_WINNING_NUMBER.getMessage());
-
-        List<Integer> winningNumbers = repeatUntilValid(()
-                -> inputController.convertWinningNumber(inputController.createInput()));
-
-        io.printNewLine();
-
-        return winningNumbers;
     }
 
-    public void printResultStatics(LottoResult lottoResult, int amount) {
+    public void printBonusNumberRequest(){
+        io.printGuide(Guide.REQUEST_BONUS_NUMBER.getMessage());
+    }
+
+    public void printResultStatics(Map<Rank,Long> lottoResult, double finalProfit) {
         io.printGuide(Guide.STATICS.getMessage());
 
-        List<Rank> winningResult = lottoController.createWinningCount(lottoResult);
-
-        Map<Rank, Long> lottoResults = new WinningResult(winningResult).getStatistics();
-
         List<Rank> ranks = Arrays.asList(Rank.FIFTH, Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST);
-
         NumberFormat formatter = NumberFormat.getNumberInstance();
 
         for (Rank rank : ranks) {
-            io.printGuide(formatRankMessage(rank, lottoResults, formatter));
+            io.printGuide(formatRankMessage(rank, lottoResult, formatter));
         }
-
-        printProfit(lottoResult,amount);
-    }
-
-    private void printProfit(LottoResult lottoResult, int amount){
-        double totalPrize = lottoController.calculateTotalPrize(lottoResult);
-        double finalProfit = lottoController.calculateProfit(amount, totalPrize);
 
         io.printGuide(Guide.PROFIT_FWD.getMessage()
                 + finalProfit
@@ -109,15 +68,6 @@ public class OutputView {
                 .append(Guide.COUNT.getMessage());
 
         return result.toString();
-    }
-
-    private <T> T repeatUntilValid(Supplier<T> function) {
-        try {
-            return function.get();
-        } catch (IllegalArgumentException illegalArgumentException) {
-            io.printGuide(illegalArgumentException.getMessage());
-            return repeatUntilValid(function);
-        }
     }
 
 }

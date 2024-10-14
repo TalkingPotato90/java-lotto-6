@@ -7,15 +7,15 @@ import lotto.util.Rank;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class LottoController {
-    private InputController inputController;
-    private LottoGenerator lottoGenerator;
-    private CommonIO io;
-    private ResultComparator resultComparator;
+    private final InputController inputController;
+    private final LottoGenerator lottoGenerator;
+    private final CommonIO io;
+    private final ResultComparator resultComparator;
 
     public LottoController() {
         this.inputController = new InputController();
@@ -24,8 +24,10 @@ public class LottoController {
         this.resultComparator = new ResultComparator();
     }
 
-    public int calculateAmount() {
-        return new Money(inputController.convertDigit(inputController.createInput())).getAmount();
+    public int purchaseLotto() {
+        return repeatUntilValid(() ->
+                new Money(inputController.convertDigit(inputController.createInput())).getAmount()
+        );
     }
 
     public List<Lotto> purchaseLottos(int amount) {
@@ -39,13 +41,25 @@ public class LottoController {
         return lottos;
     }
 
+    public WinningNumber createWinningInformation(List<Integer> winningNumbers) {
+        return repeatUntilValid(() -> {
+            int bonusNumber = inputController.convertDigit(inputController.createInput());
+            return new WinningNumber(winningNumbers, bonusNumber);
+        });
+    }
+
+    public List<Integer> createWinningNumbers() {
+        return repeatUntilValid(()
+                -> inputController.convertWinningNumber(inputController.createInput()));
+    }
+
     public double calculateTotalPrize(LottoResult lottoResult) {
         return lottoResult.getUserNumbers().stream()
                 .mapToInt(userNumber -> calculateRank(userNumber, lottoResult.getWinningNumber())
                         .getWinningMoney()).sum();
     }
 
-    public List<Rank> createWinningCount(LottoResult lottoResult) {
+    private List<Rank> createWinningCount(LottoResult lottoResult) {
         return lottoResult.getUserNumbers().stream()
                 .map(userNumber -> calculateRank(userNumber, lottoResult.getWinningNumber()))
                 .collect(Collectors.toList());
@@ -66,4 +80,18 @@ public class LottoController {
         return Double.parseDouble(df.format(profit));
     }
 
+    public Map<Rank,Long> calculateResultStatics(LottoResult lottoResult) {
+        List<Rank> winningResult = createWinningCount(lottoResult);
+
+        return new WinningResult(winningResult).getStatistics();
+    }
+
+    private <T> T repeatUntilValid(Supplier<T> function) {
+        try {
+            return function.get();
+        } catch (IllegalArgumentException illegalArgumentException) {
+            io.printGuide(illegalArgumentException.getMessage());
+            return repeatUntilValid(function);
+        }
+    }
 }
