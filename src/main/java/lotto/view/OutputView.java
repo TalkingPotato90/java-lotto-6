@@ -22,7 +22,7 @@ public class OutputView {
     private final LottoController lottoController = new LottoController();
     private final InputController inputController = new InputController();
 
-    public int purchaseLotto(){
+    public int purchaseLotto() {
         io.printGuide(Guide.PURCHASE.getMessage());
         int amount = repeatUntilValid(lottoController::calculateAmount);
         io.printNewLine();
@@ -30,14 +30,14 @@ public class OutputView {
         return amount;
     }
 
-    public List<Lotto> printPurchasedLotto(int amount){
+    public List<Lotto> printPurchasedLotto(int amount) {
         io.printGuide(amount + Guide.BUY_RESULT.getMessage());
         List<Lotto> userNumbers = lottoController.purchaseLottos(amount);
         io.printNewLine();
         return userNumbers;
     }
 
-    public WinningNumber createWinningInformation(){
+    public WinningNumber createWinningInformation() {
         List<Integer> winningNumbers = createWinningNumbers();
         io.printGuide(Guide.REQUEST_BONUS_NUMBER.getMessage());
 
@@ -51,7 +51,7 @@ public class OutputView {
         return winningNumber;
     }
 
-    private List<Integer> createWinningNumbers(){
+    private List<Integer> createWinningNumbers() {
         io.printGuide(Guide.REQUEST_WINNING_NUMBER.getMessage());
 
         List<Integer> winningNumbers = repeatUntilValid(()
@@ -62,50 +62,53 @@ public class OutputView {
         return winningNumbers;
     }
 
-    public void printResultStatics(LottoResult lottoResult, int amount){
+    public void printResultStatics(LottoResult lottoResult, int amount) {
         io.printGuide(Guide.STATICS.getMessage());
 
-        double totalPrize = lottoController.calculateTotalPrize(lottoResult);
         List<Rank> winningResult = lottoController.createWinningCount(lottoResult);
-        double finalProfit = lottoController.calculateProfit(amount, totalPrize);
 
-        Map<Rank,Long> lottoResults = new WinningResult(winningResult).getStatistics();
+        Map<Rank, Long> lottoResults = new WinningResult(winningResult).getStatistics();
 
         List<Rank> ranks = Arrays.asList(Rank.FIFTH, Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST);
 
         NumberFormat formatter = NumberFormat.getNumberInstance();
 
         for (Rank rank : ranks) {
-            if (rank == Rank.SECOND) {
-                io.printGuide(rank.getCountOfMatch() + Guide.COUNT.getMessage()
-                        + Guide.MATCH.getMessage()
-                        + Guide.BONUS_MATCH.getMessage()
-                        + Guide.MATCH.getMessage()
-                        + Guide.BRACKET_OPEN.getMessage()
-                        + formatter.format(rank.getWinningMoney())
-                        + Guide.MONEY_UNIT.getMessage()
-                        + Guide.BRACKET_CLOSE.getMessage()
-                        + Guide.DASH.getMessage()
-                        + lottoResults.getOrDefault(rank,0L)
-                        + Guide.COUNT.getMessage());
-                continue;
-            }
-
-            io.printGuide(rank.getCountOfMatch() + Guide.COUNT.getMessage()
-                    + Guide.MATCH.getMessage()
-                    + Guide.BRACKET_OPEN.getMessage()
-                    + formatter.format(rank.getWinningMoney())
-                    + Guide.MONEY_UNIT.getMessage()
-                    + Guide.BRACKET_CLOSE.getMessage()
-                    + Guide.DASH.getMessage()
-                    + lottoResults.getOrDefault(rank, 0L)
-                    + Guide.COUNT.getMessage());
+            io.printGuide(formatRankMessage(rank, lottoResults, formatter));
         }
 
+        printProfit(lottoResult,amount);
+    }
+
+    private void printProfit(LottoResult lottoResult, int amount){
+        double totalPrize = lottoController.calculateTotalPrize(lottoResult);
+        double finalProfit = lottoController.calculateProfit(amount, totalPrize);
 
         io.printGuide(Guide.PROFIT_FWD.getMessage()
                 + finalProfit
                 + Guide.PROFIT_AFT.getMessage());
+    }
+
+    private String formatRankMessage(Rank rank, Map<Rank, Long> lottoResults, NumberFormat formatter) {
+        StringBuilder result = new StringBuilder();
+        result.append(rank.getCountOfMatch())
+                .append(Guide.COUNT.getMessage())
+                .append(Guide.MATCH.getMessage());
+
+        if (rank == Rank.SECOND) {
+            result.append(Guide.BONUS_MATCH.getMessage())
+                    .append(Guide.MATCH.getMessage());
+        }
+
+        result.append(Guide.BRACKET_OPEN.getMessage())
+                .append(formatter.format(rank.getWinningMoney()))
+                .append(Guide.MONEY_UNIT.getMessage())
+                .append(Guide.BRACKET_CLOSE.getMessage())
+                .append(Guide.DASH.getMessage())
+                .append(lottoResults.getOrDefault(rank, 0L))
+                .append(Guide.COUNT.getMessage());
+
+        return result.toString();
     }
 
     private <T> T repeatUntilValid(Supplier<T> function) {
