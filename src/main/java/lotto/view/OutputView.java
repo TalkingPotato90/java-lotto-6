@@ -17,4 +17,10 @@ public class OutputView {
         return amount;
     }
 
+    public void printPurchasedLotto(int amount){
+        io.printGuide(amount + Guide.BUY_RESULT.getMessage());
+        controller.purchaseLottos(amount);
+        io.printNewLine();
+    }
+
 }
