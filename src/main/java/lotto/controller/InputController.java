@@ -1,7 +1,7 @@
 package lotto.controller;
 
 import lotto.util.Guide;
-import lotto.util.InputValidator;
+import lotto.util.CommonIO;
 import lotto.util.Limit;
 
 import java.util.Arrays;
@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class InputController {
-    private InputValidator inputValidator = new InputValidator();
+    private CommonIO commonIO = new CommonIO();
 
     public List<Integer> convertWinningNumber(String input){
-        inputValidator.validate(input);
         validateWinningNumberInput(input);
         List<Integer> winningNumbers = Arrays.stream
                         (input
@@ -25,9 +24,12 @@ public class InputController {
     }
 
     public int convertDigit(String input){
-        inputValidator.validate(input);
         validateDigitInput(input);
         return Integer.parseInt(input);
+    }
+
+    public String createInput(){
+        return commonIO.getInput();
     }
 
     private void validateDigitInput(String input){

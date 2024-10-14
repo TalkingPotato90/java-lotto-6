@@ -4,13 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 @DisplayName("입력값 검증 테스트")
-class InputValidatorTest {
+class CommonIOTest {
 
-    private InputValidator inputValidator;
+    private CommonIO commonIO;
 
     @BeforeEach
     void setUp() {
-        inputValidator = new InputValidator();
+        commonIO = new CommonIO();
     }
 
 
