@@ -1,18 +1,27 @@
 package lotto;
 
+import lotto.controller.LottoController;
 import lotto.model.Lotto;
+import lotto.model.LottoResult;
 import lotto.model.ResultComparator;
 import lotto.model.WinningNumber;
 import lotto.util.Guide;
+import lotto.util.Rank;
 import lotto.view.OutputView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Application {
     public static void main(String[] args) {
         // TODO: 프로그램 구현
         OutputView outputView = new OutputView();
-        ResultComparator resultComparator = new ResultComparator();
+        LottoController lottoController = new LottoController();
 
         int amount = outputView.purchaseLotto();
         List<Lotto> userNumbers = outputView.printPurchasedLotto(amount);
@@ -20,26 +29,47 @@ public class Application {
 
         System.out.println(Guide.STATICS.getMessage());
 
-        userNumbers.forEach(userNumber -> {
-            int count = resultComparator.compareResults(userNumber, winningNumber);
+        double totalPrize = lottoController.calculateTotalPrize(userNumbers, winningNumber);
+        List<Rank> winningResult = lottoController.createWinningCount(userNumbers, winningNumber);
+        double finalProfit = lottoController.calculateProfit(amount, totalPrize);
 
-            if (count < 3) {
-                System.out.println("꽝");
-            }else if (count == 3) {
-                System.out.println("5등");
-            }else if (count == 4) {
-                System.out.println("4등");
-            }else if (count == 5) {
-                boolean isSecondWin = resultComparator.isBonusMatch(userNumber, winningNumber);
-                if (isSecondWin) {
-                    System.out.println("2등");
-                }else {
-                    System.out.println("3등");
-                }
-            }else if (count == 6) {
-                System.out.println("1등");
+        Map<Rank,Long> lottoResult = new LottoResult(winningResult).getStatistics();
+
+        List<Rank> ranks = Arrays.asList(Rank.FIFTH, Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST);
+
+        NumberFormat formatter = NumberFormat.getNumberInstance();
+
+        for (Rank rank : ranks) {
+            if (rank == Rank.SECOND) {
+                System.out.println(rank.getCountOfMatch() + Guide.COUNT.getMessage()
+                        + Guide.MATCH.getMessage()
+                        + Guide.BONUS_MATCH.getMessage()
+                        + Guide.MATCH.getMessage()
+                        + Guide.BRACKET_OPEN.getMessage()
+                        + formatter.format(rank.getWinningMoney())
+                        + Guide.MONEY_UNIT.getMessage()
+                        + Guide.BRACKET_CLOSE.getMessage()
+                        + Guide.DASH.getMessage()
+                        + lottoResult.getOrDefault(rank,0L)
+                        + Guide.COUNT.getMessage());
+                continue;
             }
-        });
+
+            System.out.println(rank.getCountOfMatch() + Guide.COUNT.getMessage()
+                    + Guide.MATCH.getMessage()
+                    + Guide.BRACKET_OPEN.getMessage()
+                    + rank.getWinningMoney()
+                    + Guide.MONEY_UNIT.getMessage()
+                    + Guide.BRACKET_CLOSE.getMessage()
+                    + Guide.DASH.getMessage()
+                    + lottoResult.getOrDefault(rank, 0L)
+                    + Guide.COUNT.getMessage());
+        }
+
+
+        System.out.println(Guide.PROFIT_FWD.getMessage()
+                + finalProfit
+                + Guide.PROFIT_AFT.getMessage());
 
     }
 }
