@@ -1,10 +1,12 @@
 package lotto.model;
 
+import lotto.util.CommonIO;
 import lotto.util.Limit;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class WinningNumber {
     private final List<Integer> winningNumbers;
@@ -42,4 +44,5 @@ public class WinningNumber {
     private boolean isDuplicate(List<Integer> winningNumber, int bonusNumber) {
         return winningNumber.contains(bonusNumber);
     }
+
 }
